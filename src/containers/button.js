@@ -7,12 +7,15 @@ class Button extends Component {
   }
 
   getInput() {
-    const input = prompt('Please Enter A Task');
-    if (!input.trim()) {
+    const { userId } = this.props;
+    const taskText = prompt('Please Enter A Task');
+
+    if (!taskText.trim()) {
       alert('Cannot create card without a description.');
       return;
     }
-    this.props.addCard(input);
+
+    this.props.liftNewUserTask(this.props.userId, taskText);
   }
 
   render() {

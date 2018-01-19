@@ -7,55 +7,109 @@ class Column extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: [],
-      person: this.props.colName,
+      tasks: this.props.tasks,
+      firstName: this.props.firstName,
+      userId: this.props.id,
       uniqueIdCount: 0
     }
-
-    this.addCard = this.addCard.bind(this);
+    // this.onDragEnd=this.onDragEnd.bind(this);
+    // this.onDragEnter=this.onDragEnter.bind(this);
+    // this.onDragExit=this.onDragExit.bind(this);
+    // this.onDragLeave=this.onDragLeave.bind(this);
+    // this.onDragOver=this.onDragOver.bind(this);
+    // this.onDragStart=this.onDragStart.bind(this);
+    // this.onDrop=this.onDrop.bind(this);
+    this.liftNewUserTask = this.liftNewUserTask.bind(this);
   }
 
-  renderCard(card) {
-    const { id , text } = card;
+  componentWillReceiveProps(nextProps) {
+    this.setState(prevState => {
+      return { tasks: [ ...nextProps.tasks ] };
+    });
+  }
+
+  renderCard(task) {
+    const { id , text } = task;
     return (
-      <div key={id}>
-        <Card text={text} />
+      <div key={task.id}>
+        <Card
+          onDragStart={this.onDragStart}
+          onDrag={this.onDrag}
+          { ...task }
+        />
       </div>
     );
   }
 
-  addCard(input) {
-    this.setState((prevState) => {
-      const { cards, uniqueIdCount } = prevState;
-      const newCard = {
-        text: input,
-        id: uniqueIdCount
-      }
-      return {
-        cards: [ ...cards, newCard ],
-        uniqueIdCount: uniqueIdCount + 1
-      }
-    });
+  liftNewUserTask(userId, task) {
+    this.props.addUserTask(userId, task);
+  }
+
+  onDrag() {
+    console.log('onDrag');
+    // console.log(this.state.firstName);
+  }
+  onDragEnd() {
+    console.log('onDragEnd');
+    // console.log(this.state.firstName);
+  }
+
+  onDragEnter(e) {
+    e.preventDefault();
+    console.log('onDragEnter');
+    // console.log(this.state.firstName);
+  }
+
+  onDragExit(e) {
+    e.preventDefault();
+    console.log('onDragExit');
+    // console.log(this.state.firstName);
+  }
+
+  onDragLeave(e) {
+    e.preventDefault();
+    console.log('onDragLeave');
+    // console.log(this.state.firstName);
+  }
+
+  onDragOver(e) {
+    e.preventDefault();
+    console.log('onDragOver');
+    // console.log(this.state.firstName);
+  }
+  onDragStart(e) {
+    console.log('onDragStart', e);
+    // console.log(this.state.firstName);
+  }
+
+  onDrop(e) {
+    console.log('onDrop');
+    // console.log(this.state.firstName);
   }
 
   render() {
-    const { colName, useGutter } = this.props;
-    const colHeader = <h2>{colName}</h2>;
-    const cardElems = this.state.cards.map(card => this.renderCard(card));
+    const { firstName, tasks, userId } = this.state;
+    const firstNameHeader = <h2>{firstName}</h2>;
+    const cardComponents = tasks.map(task => this.renderCard(task));
     return (
       <section
-        key={colName}
-        className={(useGutter ? 'col-gutter ' : '') + 'column'}
+        key={userId}
+        className='column'
+        draggable="true"
       >
-        <header className={`${colName} col-header`}>
-          {colHeader}
+        <header className={`${firstName} col-header`}>
+          {firstNameHeader}
         </header>
-        <article className="card-holder">
-          {cardElems}
+        <article
+          onDragOver={this.onDragOver}
+          onDrop={this.onDrop}
+          className="card-holder"
+        >
+          {cardComponents}
         </article>
         <Button
-          columnName={colName}
-          addCard={this.addCard} />
+          userId={userId}
+          liftNewUserTask={this.liftNewUserTask} />
       </section>
     );
   }

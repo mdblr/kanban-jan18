@@ -21,7 +21,19 @@ html, .dash {
   height: 100vh;
 }
 
-.board, .column, .card-header, .card-holder {
+.blackout {
+  position: absolute;
+  z-index: 1;
+  background-color: black;
+  opacity: .5;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
+  display: none;
+}
+
+.columns, .column, .card-header, .card-holder {
   display: flex;
 }
 
@@ -40,7 +52,6 @@ html, .dash {
 
 .card-header {
   justify-content: space-between;
-  align-items: center;
 }
 
 .card-holder {
@@ -52,6 +63,14 @@ html, .dash {
   padding: 7px;
 }
 
+.hide {
+  display:none;
+}
+
+.show {
+  display:block;
+}
+
 .column {
   flex-flow: column wrap;
   flex: 0 1 25%;
@@ -61,10 +80,19 @@ html, .dash {
   margin: 0 12.5px;
 }
 
+.columns {
+  height: 100%;
+  flex: 1 1 auto;
+}
+
 .col-header {
   text-align: center;
   width: 100%;
   border-radius: 5px 5px;
+}
+
+.col-select {
+  display: none;
 }
 
 .card-holder, .new-card {
@@ -102,12 +130,4 @@ html, .dash {
 
 .col-header.Alice {
   background-color: #E8741E;
-}
-
-.hide {
-  display:none;
-}
-
-.show {
-  display:block;
 }
