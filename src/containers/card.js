@@ -15,11 +15,12 @@ class Card extends Component {
 
     return (
       <div
+        key={this.props.taskId}
         draggable="true"
         onDragStart={this.props.onDragStart}
         className="card">
-        <CardOptions { ...cocProps }/>
-        <p>{this.props.text}</p>
+          <CardOptions { ...cocProps }/>
+          <p>{this.props.task}</p>
       </div>
     );
   }

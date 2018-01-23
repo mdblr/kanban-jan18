@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import CardHolder from '../components/card-holder';
 import Card from './card';
 import Button from './button';
 
@@ -93,29 +94,21 @@ class Column extends Component {
   render() {
     const { firstName, tasks, userId } = this.state;
     const firstNameHeader = <h2>{firstName}</h2>;
-    const cardComponents = tasks.map(task => this.renderCard(task, userId));
+    // const cardComponents = tasks.map(task => this.renderCard(task, userId));
+    const chProps = { tasks, userId, switchUsers: this.props.switchUsers };
     return (
-      <section
-        key={userId}
-        className='column'
-        draggable="true"
-      >
+      <section key={userId} className='column'>
         <header className={`${firstName} col-header`}>
           {firstNameHeader}
         </header>
-        <article
-          onDragOver={this.onDragOver}
-          onDrop={this.onDrop}
-          className="card-holder"
-        >
-          {cardComponents}
-        </article>
-        <Button
-          userId={userId}
-          liftNewUserTask={this.liftNewUserTask} />
+        <CardHolder { ...chProps } />
+        <Button userId={userId} liftNewUserTask={this.liftNewUserTask} />
       </section>
     );
   }
 }
+// <article className="card-holder">
+//   {cardComponents}
+// </article>
 
 export default Column;
