@@ -4,20 +4,22 @@ import CardOptions from '../components/card-options';
 class Card extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      id: this.props.id,
-      text: this.props.task
-    };
   }
 
   render() {
+    const cocProps = { // coc -> card options componenet
+      taskId: this.props.taskId,
+      userId: this.props.userId,
+      switchUsers: this.props.switchUsers
+    };
+
     return (
       <div
         draggable="true"
         onDragStart={this.props.onDragStart}
         className="card">
-        <CardOptions />
-        <p>{this.state.text}</p>
+        <CardOptions { ...cocProps }/>
+        <p>{this.props.text}</p>
       </div>
     );
   }

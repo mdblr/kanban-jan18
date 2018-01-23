@@ -33,12 +33,17 @@ class Dash extends Component {
     }
     this.state = { ...users };
     this.addUserTask = this.addUserTask.bind(this);
+    this.switchUsers = this.switchUsers.bind(this);
   }
 
   renderCols(users) {
     const columnComponents = [];
     for (let userId in users) {
-      let props = { ...users[userId], addUserTask: this.addUserTask };
+      let props = {
+        ...users[userId],
+        addUserTask: this.addUserTask,
+        switchUsers: this.switchUsers
+      };
       columnComponents.push(<Column key={userId} { ...props } />);
     }
     return columnComponents;
@@ -48,14 +53,29 @@ class Dash extends Component {
     this.setState((prevState) => {
       const user = prevState[userId.toString()];
       const { tasks, taskCounter, ...unchanged } = user;
-      const newTask = { task, id: taskCounter };
+      const newTask = { task, taskId: taskCounter };
       return {
         [userId.toString()]: {
           tasks: [ ...tasks, newTask ],
-          taskCounter: taskCounter + 1,
+          taskCounter: taskCounter + 1, // increment for future call
           ...unchanged
         }
       }
+    });
+  }
+
+  switchUsers(currOwnerId, nextOwnerId=2, taskId) {
+    if (currOwnerId === nextOwnerId) return;
+
+    this.setState((prevState) => {
+        const currOwner = prevState[currOwnerId];
+        const nextOwner = prevState[nextOwnerId];
+        const taskItem = currOwner.tasks.find(coTask => coTask.taskId === taskId);
+
+        nextOwner.tasks.push(taskItem);
+        currOwner.tasks = currOwner.tasks.filter(coTask => coTask.taskId !== taskId);
+
+        return { [currOwnerId]: currOwner, [nextOwnerId]: nextOwner };
     });
   }
 

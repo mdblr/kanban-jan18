@@ -28,14 +28,17 @@ class Column extends Component {
     });
   }
 
-  renderCard(task) {
-    const { id , text } = task;
+  renderCard(task, userId) {
+    const { text, taskId } = task;
+    const props = { ...task, userId };
+    props.switchUsers = this.props.switchUsers;
+
     return (
-      <div key={task.id}>
+      <div key={taskId}>
         <Card
           onDragStart={this.onDragStart}
           onDrag={this.onDrag}
-          { ...task }
+          { ...props }
         />
       </div>
     );
@@ -90,7 +93,7 @@ class Column extends Component {
   render() {
     const { firstName, tasks, userId } = this.state;
     const firstNameHeader = <h2>{firstName}</h2>;
-    const cardComponents = tasks.map(task => this.renderCard(task));
+    const cardComponents = tasks.map(task => this.renderCard(task, userId));
     return (
       <section
         key={userId}

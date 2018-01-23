@@ -116,7 +116,7 @@ html, .dash {
   flex: 0 1 auto;
 }
 
-.col-header.Max {
+.col-header.Ladybird {
   background-color: #8E6E95;
 }
 
@@ -124,10 +124,10 @@ html, .dash {
   background-color: #39A59C;
 }
 
-.col-header.Samantha {
+.col-header.Maude {
   background-color: #344759;
 }
 
-.col-header.Alice {
+.col-header.Harold {
   background-color: #E8741E;
 }
