@@ -8,25 +8,25 @@ class Dash extends Component {
     const users = {
       '0': {
         firstName: 'Ladybird',
-        id: 0,
+        userId: 0,
         tasks: [],
         taskCounter: 0
       },
       '1': {
         firstName: 'Jake',
-        id: 1,
+        userId: 1,
         tasks: [],
         taskCounter: 0
       },
       '2': {
         firstName: 'Maude',
-        id: 2,
+        userId: 2,
         tasks: [],
         taskCounter: 0
       },
       '3': {
         firstName: 'Harold',
-        id: 3,
+        userId: 3,
         tasks: [],
         taskCounter: 0
       }
