@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import CardHolder from '../components/card-holder';
+import CardHolder from './card-holder';
 import Button from './button';
 
 class Column extends Component {

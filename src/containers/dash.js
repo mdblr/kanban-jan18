@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Column from './column';
+import Column from '../components/column';
 import MoveModal from '../components/move-modal';
 
 class Dash extends Component {
