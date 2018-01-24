@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import CardHolder from '../components/card-holder';
-import Card from './card';
 import Button from './button';
-
 
 class Column extends Component {
   constructor(props) {
@@ -27,22 +25,6 @@ class Column extends Component {
     this.setState(prevState => {
       return { tasks: [ ...nextProps.tasks ] };
     });
-  }
-
-  renderCard(task, userId) {
-    const { text, taskId } = task;
-    const props = { ...task, userId };
-    props.switchUsers = this.props.switchUsers;
-
-    return (
-      <div key={taskId}>
-        <Card
-          onDragStart={this.onDragStart}
-          onDrag={this.onDrag}
-          { ...props }
-        />
-      </div>
-    );
   }
 
   liftNewUserTask(userId, task) {
@@ -94,8 +76,8 @@ class Column extends Component {
   render() {
     const { firstName, tasks, userId } = this.state;
     const firstNameHeader = <h2>{firstName}</h2>;
-    // const cardComponents = tasks.map(task => this.renderCard(task, userId));
     const chProps = { tasks, userId, switchUsers: this.props.switchUsers };
+
     return (
       <section key={userId} className='column'>
         <header className={`${firstName} col-header`}>
@@ -107,8 +89,5 @@ class Column extends Component {
     );
   }
 }
-// <article className="card-holder">
-//   {cardComponents}
-// </article>
 
 export default Column;
