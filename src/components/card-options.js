@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class CardOptions extends Component {
   constructor(props) {
     super(props);
-    this.state = { hidden: true, userId: this.props.userId, taskId: this.props.taskId };
+    this.state = { hidden: true };
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleClass = this.toggleClass.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
