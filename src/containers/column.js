@@ -5,12 +5,6 @@ import Button from './button';
 class Column extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: this.props.tasks,
-      firstName: this.props.firstName,
-      userId: this.props.id,
-      uniqueIdCount: 0
-    }
     // this.onDragEnd=this.onDragEnd.bind(this);
     // this.onDragEnter=this.onDragEnter.bind(this);
     // this.onDragExit=this.onDragExit.bind(this);
@@ -19,12 +13,6 @@ class Column extends Component {
     // this.onDragStart=this.onDragStart.bind(this);
     // this.onDrop=this.onDrop.bind(this);
     this.liftNewUserTask = this.liftNewUserTask.bind(this);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(prevState => {
-      return { tasks: [ ...nextProps.tasks ] };
-    });
   }
 
   liftNewUserTask(userId, task) {
@@ -74,16 +62,15 @@ class Column extends Component {
   }
 
   render() {
-    const { firstName, tasks, userId } = this.state;
-    const firstNameHeader = <h2>{firstName}</h2>;
-    const chProps = { tasks, userId, switchUsers: this.props.switchUsers };
+    const { firstName, tasks, userId, switchUsers } = this.props;
+    const cardHolderProps = { tasks, userId, switchUsers };
 
     return (
       <section key={userId} className='column'>
         <header className={`${firstName} col-header`}>
-          {firstNameHeader}
+          <h2>{firstName}</h2>
         </header>
-        <CardHolder { ...chProps } />
+        <CardHolder { ...cardHolderProps } />
         <Button userId={userId} liftNewUserTask={this.liftNewUserTask} />
       </section>
     );
