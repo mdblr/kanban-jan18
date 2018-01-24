@@ -68,8 +68,8 @@ class Dash extends Component {
     if (currOwnerId === nextOwnerId) return;
 
     this.setState((prevState) => {
-        const currOwner = prevState[currOwnerId];
-        const nextOwner = prevState[nextOwnerId];
+        const currOwner =  { ...prevState[currOwnerId] };
+        const nextOwner = { ...prevState[nextOwnerId] };
         const taskItem = currOwner.tasks.find(coTask => coTask.taskId === taskId);
 
         nextOwner.tasks.push(taskItem);

@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../containers/card';
+import Card from './card';
 
 function renderCard(task, moreProps) {
   const cardProps = { ...task, ...moreProps };
