@@ -6,7 +6,6 @@ class CardOptions extends Component {
     this.state = { hidden: true };
     this.toggleMenu = this.toggleMenu.bind(this);
     this.toggleClass = this.toggleClass.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
     this.liftTaskToDiffUser = this.liftTaskToDiffUser.bind(this);
   }
 
@@ -18,13 +17,9 @@ class CardOptions extends Component {
     return this.state.hidden ? 'hide' : 'show';
   }
 
-  toggleModal() {
-    // this.props.toggleModal(this.state.card);
-  }
-
   liftTaskToDiffUser() {
-    const { switchUsers, userId, taskId } = this.props;
-    switchUsers(userId, undefined, taskId);
+    const { userId, taskId, toggleReOrgModal } = this.props;
+    toggleReOrgModal(userId, taskId);
   }
 
   render() {

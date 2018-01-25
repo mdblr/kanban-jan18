@@ -62,8 +62,8 @@ class Column extends Component {
   }
 
   render() {
-    const { firstName, tasks, userId, switchUsers } = this.props;
-    const cardHolderProps = { tasks, userId, switchUsers };
+    const { firstName, tasks, userId, toggleReOrgModal } = this.props;
+    const cardHolderProps = { tasks, userId, toggleReOrgModal };
 
     return (
       <section key={userId} className='column'>

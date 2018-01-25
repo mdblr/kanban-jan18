@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Column from '../components/column';
-import MoveModal from '../components/move-modal';
+import ReOrgModal from '../components/move-modal';
 
 class Dash extends Component {
   constructor(props) {
@@ -8,32 +8,39 @@ class Dash extends Component {
     const users = {
       '0': {
         firstName: 'Ladybird',
-        userId: 0,
-        tasks: [],
+        userId: '0',
+        tasks: [], // see addUserTask for task structure
         taskCounter: 0
       },
       '1': {
         firstName: 'Jake',
-        userId: 1,
+        userId: '1',
         tasks: [],
         taskCounter: 0
       },
       '2': {
         firstName: 'Maude',
-        userId: 2,
+        userId: '2',
         tasks: [],
         taskCounter: 0
       },
       '3': {
         firstName: 'Harold',
-        userId: 3,
+        userId: '3',
         tasks: [],
         taskCounter: 0
       }
     }
-    this.state = { ...users };
+
+    this.state = {
+      ...users,
+      isReOrgTask: false,
+      reOrgModalProps: { curOwnerId: null, taskId: null } // values lifted from card children and sent to modal component
+    };
+
     this.addUserTask = this.addUserTask.bind(this);
-    this.switchUsers = this.switchUsers.bind(this);
+    this.reOrgTask = this.reOrgTask.bind(this);
+    this.toggleReOrgModal = this.toggleReOrgModal.bind(this);
   }
 
   renderCols(users) {
@@ -42,7 +49,8 @@ class Dash extends Component {
       let props = {
         ...users[userId],
         addUserTask: this.addUserTask,
-        switchUsers: this.switchUsers
+        reOrgTask: this.reOrgTask,
+        toggleReOrgModal: this.toggleReOrgModal
       };
       columnComponents.push(<Column key={userId} { ...props } />);
     }
@@ -64,27 +72,43 @@ class Dash extends Component {
     });
   }
 
-  switchUsers(currOwnerId, nextOwnerId=2, taskId) {
-    if (currOwnerId === nextOwnerId) return;
+
+  reOrgTask(curOwnerId, nextOwnerId, taskId) {
+    if (curOwnerId === nextOwnerId) return;
 
     this.setState((prevState) => {
-        const currOwner =  { ...prevState[currOwnerId] };
+        const curOwner =  { ...prevState[curOwnerId] };
         const nextOwner = { ...prevState[nextOwnerId] };
-        const taskItem = currOwner.tasks.find(coTask => coTask.taskId === taskId);
+        const taskItem = curOwner.tasks.find(coTask => coTask.taskId === taskId);
 
+        curOwner.tasks = curOwner.tasks.filter(coTask => coTask.taskId !== taskId);
+        taskItem.taskId = nextOwner.taskCounter;
         nextOwner.tasks.push(taskItem);
-        currOwner.tasks = currOwner.tasks.filter(coTask => coTask.taskId !== taskId);
+        nextOwner.taskCounter += 1;
 
-        return { [currOwnerId]: currOwner, [nextOwnerId]: nextOwner };
+        return { [curOwnerId]: curOwner, [nextOwnerId]: nextOwner };
     });
   }
 
+  toggleReOrgModal(curOwnerId, taskId) {
+    this.setState(prevState => ({
+      isReOrgTask: !prevState.isReOrgTask,
+      reOrgModalProps: { curOwnerId, taskId }
+    }));
+  }
+
   render() {
-    const columns = this.renderCols(this.state);
+    const { isReOrgTask, reOrgModalProps, ...users } = this.state;
+    const columns = this.renderCols(users);
     return (
       <div className='board'>
         <section className='columns'>{columns}</section>
-        <MoveModal />
+        { isReOrgTask && <ReOrgModal
+          {...reOrgModalProps }
+          users={users}
+          reOrgTask={this.reOrgTask}
+          toggleReOrgModal={this.toggleReOrgModal} />
+        }
       </div>
     );
   }
